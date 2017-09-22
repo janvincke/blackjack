@@ -43,3 +43,32 @@ def test_compare():
 
 def test_greater_than():
     assert True == (Card('spade', 'Q') > Card('spade', 3))
+
+
+def test_proper_repr():
+    assert "<A of spades>" == repr((Card('spade', 'A')))
+
+
+def test_init_deck():
+    deck = Deck()
+    assert len(deck.cards) == 52
+
+
+def test_shuffle_deck():
+    deck_a = Deck()
+    deck_b = Deck()
+
+    for c_a, c_b in zip(deck_a.cards, deck_b.cards):
+        assert c_a.value == c_b.value
+
+    deck_b.shuffle()
+    randomness = []
+
+    for c_a, c_b in zip(deck_a.cards, deck_b.cards):
+        randomness.append(c_a.value != c_b.value)
+
+    assert any(randomness)
+
+
+def test_deal_hands():
+    pass

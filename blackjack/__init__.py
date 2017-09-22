@@ -1,3 +1,6 @@
+
+import random
+
 class Card:
 
     def __init__(self, suit, value):
@@ -14,7 +17,7 @@ class Card:
         if value in ['K', 'Q', 'J']:
             self.numeric_value = 10
         elif value == 'A':
-            self.numeric_value == 11
+            self.numeric_value = 11
         else:
             self.numeric_value = value
 
@@ -27,7 +30,24 @@ class Card:
     def __eq__(self, other):
         return self.numeric_value == other.numeric_value
 
+    def __repr__(self):
+        return '<{} of {}s>'.format(self.value, self.suit)
+
+    def __str__(self):
+        return repr(self)
+
 
 class Deck:
-    pass
 
+    """"A Standard deck class with 52 cards, 13 cards in each suit"""
+
+    def __init__(self):
+
+        self.cards = []
+
+        for suit in ['diamond', 'heart', 'spade', 'club']:
+            for value in list(range(2,11)) + ['A', 'K', 'Q', 'J']:
+                self.cards.append(Card(suit, value))
+
+    def shuffle(self):
+        random.shuffle(self.cards)
