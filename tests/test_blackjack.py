@@ -1,6 +1,8 @@
 import pytest
 
-from blackjack import Card, Deck
+from unittest.mock import MagicMock
+
+from blackjack import Card, Deck, Hand
 
 
 def test_cards():
@@ -84,4 +86,27 @@ def test_iter_deck():
 
 
 def test_deal_hands():
-    pass
+    deck = Deck()
+
+    assert isinstance(deck.deal_card(), Card)
+
+    deck = Deck()
+    deck.shuffle()
+    card1, card2 = deck.deal_hand()
+
+    assert isinstance(card1, Card)
+    assert isinstance(card2, Card)
+    assert card1.value != card2.value or card1.suit != card2.suit
+
+
+def test_hand_value():
+    deck = Deck()
+    deck.shuffle()
+    hand = Hand(deck)
+    assert isinstance(hand.cards[0], Card)
+    assert isinstance(hand.cards[1], Card)
+
+    hand.value = 20
+    hand.deck.deal_card = MagicMock(return_value=Card('spade', 'A'))
+    hand.get_card()
+    assert hand.value == 21

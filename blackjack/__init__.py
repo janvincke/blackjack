@@ -1,8 +1,9 @@
 
 import random
 
-class Card:
 
+class Card:
+    """Card of a standard card deck"""
     def __init__(self, suit, value):
         if suit not in ['diamond', 'heart', 'spade', 'club']:
             raise ValueError('This is a standard card game. Suit must be in '
@@ -59,8 +60,47 @@ class Deck:
         try:
             card = self.cards.pop(0)
             return card
+
         except IndexError:
             raise StopIteration('Deck is out of cards')
 
     def shuffle(self):
         random.shuffle(self.cards)
+
+    def deal_hand(self):
+        return [self._deal_card(), self._deal_card()]
+
+    def deal_card(self):
+        return self._deal_card()
+
+    def _deal_card(self):
+        """
+
+        :param cards (int):
+        :return: number of cards from our deck
+        """
+        return next(self)
+
+
+class Hand:
+    """Number of cards owned by a player or the dealer"""
+    def __init__(self, deck):
+        self.deck = deck
+        self.cards = deck.deal_hand()
+        if self.cards[0].value == 'A' and self.cards[1].value == 'A':
+            self.value = 12
+        else:
+            self.value = self.cards[0] + self.cards[1]
+        print("My value is: {}\n"
+              "My cards are: \n{}".format(self.value, self.cards))
+
+    def get_card(self):
+        self.cards.append(self.deck.deal_card())
+        if self.cards[-1].value != 'A':
+            self.value += self.cards[-1].numeric_value
+        elif self.value < 11:
+            self.value += 11
+        else:
+            self.value += 1
+        print("My new value is: {}\n"
+              "My cards are: \n{}".format(self.value, self.cards))
