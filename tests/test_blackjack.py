@@ -70,5 +70,18 @@ def test_shuffle_deck():
     assert any(randomness)
 
 
+def test_len_deck():
+    deck = Deck()
+
+    assert len(deck) == 52
+
+
+def test_iter_deck():
+    deck = Deck()
+
+    assert next(deck) == Card('spade', 2)
+    assert next(deck) == Card('spade', 3)
+
+
 def test_deal_hands():
     pass
